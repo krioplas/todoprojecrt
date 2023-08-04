@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import AppHeader from '../components/header/header'
-import NewTaskForm from '../components/newTaskForm/newTaskForm';
-import TaskList from '../components/taskList/taskList';
-import Footer from '../components/footer/footer';
+import AppHeader from '../header/header'
+import NewTaskForm from '../newTaskForm/newTaskForm';
+import TaskList from '../taskList/taskList';
+import Footer from '../footer/footer';
 
 import './app.css'
 
