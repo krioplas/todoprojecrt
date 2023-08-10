@@ -1,6 +1,7 @@
 import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 import './task.css';
 
 export default class Task extends React.Component {
@@ -21,13 +22,10 @@ export default class Task extends React.Component {
 
   render() {
     const { label, onDeleted, onTaskActive, completed, date } = this.props;
-    let className = '';
-    if (completed) {
-      className += 'completed';
-    }
-    if (this.state.editing) {
-      className += ' editing';
-    }
+    const className = cn('li', {
+      completed: completed,
+      editing: this.state.editing,
+    });
     let editTaskForm = null;
     const onTaskChange = (e) => {
       this.setState({
@@ -48,7 +46,7 @@ export default class Task extends React.Component {
     return (
       <li className={className}>
         <div className="view">
-          <input className="toggle" type="checkbox" onChange={onTaskActive} />
+          <input className="toggle" type="checkbox" onChange={onTaskActive} defaultChecked={completed} />
           <label>
             <span className="description">{label}</span>
             <span className="created">created {taskCreateTime}</span>
@@ -72,6 +70,7 @@ Task.propTypes = {
 Task.defaultProps = {
   onTaskActive: () => {},
   onDeleted: () => {},
+  onEdited: () => {},
   label: '',
   completed: false,
 };

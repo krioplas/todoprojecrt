@@ -3,24 +3,20 @@ import PropTypes from 'prop-types';
 import './tasksFilter.css';
 
 export default class TasksFilter extends React.Component {
-  ToDoData = [
-    { name: 'All', id: 0 },
-    { name: 'Active', id: 1 },
-    { name: 'Completed', id: 2 },
-  ];
+  ToDoData = [{ name: 'All' }, { name: 'Active' }, { name: 'Completed' }];
 
   render() {
-    const { onFilter, idActive } = this.props;
+    const { onFilter, nameFilter } = this.props;
     const element = this.ToDoData.map((item) => {
-      const { id } = item;
+      const { name } = item;
       return (
-        <li key={id}>
+        <li key={Math.random() * 10}>
           <button
             {...item}
             onClick={() => {
-              onFilter(id);
+              onFilter(name);
             }}
-            className={idActive === id ? 'selected' : ''}
+            className={nameFilter === name ? 'selected' : ''}
           >
             {item.name}
           </button>
@@ -33,10 +29,10 @@ export default class TasksFilter extends React.Component {
 
 TasksFilter.defaultProps = {
   onFilter: () => {},
-  idActive: 0,
+  nameFilter: 'All',
 };
 
 TasksFilter.propTypes = {
   onFilter: PropTypes.func.isRequired,
-  idActive: PropTypes.number,
+  nameFilter: PropTypes.string,
 };

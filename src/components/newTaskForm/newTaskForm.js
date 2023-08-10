@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './newTaskForm.css';
 
@@ -15,7 +16,7 @@ export default class NewTaskForm extends React.Component {
 
   onSubmitTask = (e) => {
     e.preventDefault();
-    if (this.state.label !== '') {
+    if (this.state.label.trim() !== '') {
       this.props.addTask(this.state.label);
     }
     this.setState({
@@ -27,6 +28,9 @@ export default class NewTaskForm extends React.Component {
     return (
       <form onSubmit={this.onSubmitTask}>
         <input
+          type="text"
+          maxLength={30}
+          minLength={3}
           className="new-todo"
           placeholder="Введите задачу и нажмите Enter"
           autoFocus
@@ -37,3 +41,10 @@ export default class NewTaskForm extends React.Component {
     );
   }
 }
+NewTaskForm.propTypes = {
+  addTask: PropTypes.func,
+};
+
+NewTaskForm.defaultProps = {
+  addTask: () => {},
+};

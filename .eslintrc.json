@@ -22,7 +22,6 @@
     ],
     "rules": {
       "indent": ["error", 2],
-      "prettier/prettier": "error",
       "linebreak-style": [0, "unix"],
       "quotes": ["error", "single"],
       "semi": ["error", "always"],
@@ -42,6 +41,12 @@
             "index"
           ],
           "newlines-between": "always"
+        }
+      ],
+      "prettier/prettier": [
+        "error",
+        {
+          "endOfLine": "auto"
         }
       ]
     },

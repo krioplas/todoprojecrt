@@ -6,7 +6,7 @@ import Task from '../task/task ';
 
 import './taskList.css';
 
-const TaskList = ({ todo, onDeleted, onTaskActive, onEdited, addTask, date }) => {
+const TaskList = ({ todo, onDeleted, onTaskActive, onEdited, addTask }) => {
   const element = todo.map((item) => {
     const { id, ...label } = item;
     return (
@@ -24,12 +24,14 @@ const TaskList = ({ todo, onDeleted, onTaskActive, onEdited, addTask, date }) =>
         addTask={() => {
           addTask();
         }}
-        date={date}
+        date={item.date}
       />
     );
   });
   return <ul className="todo-list">{element}</ul>;
 };
+
+export default TaskList;
 
 TaskList.propTypes = {
   todo: PropTypes.array.isRequired,
@@ -38,5 +40,10 @@ TaskList.propTypes = {
   onEdited: PropTypes.func,
   addTask: PropTypes.func,
 };
-
-export default TaskList;
+Task.defaultProps = {
+  addTask: () => {},
+  onTaskActive: () => {},
+  onDeleted: () => {},
+  onEdited: () => {},
+  todo: [],
+};

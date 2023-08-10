@@ -6,12 +6,12 @@ import './footer.css';
 
 export default class Footer extends React.Component {
   render() {
-    const { completed, onFilter, idActive, deleteTaskCompleted } = this.props;
+    const { completed, onFilter, nameFilter, deleteTaskCompleted } = this.props;
 
     return (
       <footer className="footer">
         <span className="todo-count">{completed} items left</span>
-        <TasksFilter onFilter={onFilter} idActive={idActive} />
+        <TasksFilter onFilter={onFilter} nameFilter={nameFilter} />
         <button
           className="clear-completed"
           onClick={() => {
@@ -27,13 +27,13 @@ export default class Footer extends React.Component {
 Footer.propTypes = {
   completed: PropTypes.number,
   onFilter: PropTypes.func,
-  idActive: PropTypes.number,
+  nameFilter: PropTypes.string,
   deleteTaskCompleted: PropTypes.func,
 };
 
 Footer.defaultProps = {
   completed: 0,
   onFilter: () => {},
-  idActive: () => {},
+  nameFilter: 'All',
   deleteTaskCompleted: () => {},
 };

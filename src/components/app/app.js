@@ -10,8 +10,7 @@ import './app.css';
 export default class App extends Component {
   state = {
     appData: [],
-    id: 0,
-    date: new Date(),
+    nameFilter: 'All',
   };
 
   newId = 5;
@@ -20,6 +19,7 @@ export default class App extends Component {
       label,
       id: this.newId++,
       completed: false,
+      date: new Date(),
     };
   };
 
@@ -63,8 +63,8 @@ export default class App extends Component {
     });
   };
 
-  onFilter = (id) => {
-    this.setState({ id });
+  onFilter = (name) => {
+    this.setState({ nameFilter: name });
   };
 
   editItem = (id, text) => {
@@ -80,16 +80,15 @@ export default class App extends Component {
 
   render() {
     const completedTaskFilter = this.state.appData.filter((el) => {
-      if (this.state.id === 1) {
+      if (this.state.nameFilter === 'Active') {
         return !el.completed;
-      } else if (this.state.id === 2) {
+      } else if (this.state.nameFilter === 'Completed') {
         return el.completed;
       } else {
         return true;
       }
     });
-    const completedTask = this.state.appData.filter((el) => el.completed).length;
-    const leftoversTask = this.state.appData.length - completedTask;
+    const activeTask = this.state.appData.filter((el) => !el.completed).length;
 
     return (
       <div>
@@ -103,13 +102,12 @@ export default class App extends Component {
             onDeleted={this.deleteTask}
             onTaskActive={this.onTaskActive}
             addTask={this.addTask}
-            date={this.state.date}
           />
           <Footer
-            completed={leftoversTask}
+            completed={activeTask}
             todo={this.state.appData}
             onFilter={this.onFilter}
-            idActive={this.state.id}
+            nameFilter={this.state.nameFilter}
             onTaskActive={this.onTaskActive}
             deleteTaskCompleted={this.deleteTaskCompleted}
           />
