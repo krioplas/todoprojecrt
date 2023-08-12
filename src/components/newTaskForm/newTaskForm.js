@@ -58,6 +58,7 @@ export default class NewTaskForm extends React.Component {
           onChange={this.onMin}
           value={this.state.min}
           pattern="[0-9]{1}[0-9]{1}"
+          maxLength={3}
         />
         <input
           className="new-todo-form__timer"
@@ -65,6 +66,7 @@ export default class NewTaskForm extends React.Component {
           onChange={this.onSec}
           value={this.state.sec}
           pattern="[0-5]{1}[0-9]{1}"
+          maxLength={2}
         />
         <button type="submit"></button>
       </form>
