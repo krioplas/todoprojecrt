@@ -8,8 +8,36 @@ export default class Task extends React.Component {
   state = {
     label: '',
     editing: false,
+    timer: 'off',
+    min: this.props.min,
+    sec: this.props.sec,
   };
-
+  timer;
+  componentDidUpdate() {
+    if (this.state.timer === 'on') {
+      this.timer = setTimeout(() => {
+        this.props.onStateTimer(this.state.min, this.state.sec - 1);
+        let sec = this.state.sec;
+        sec--;
+        this.setState({ sec: sec });
+      }, 1000);
+      if (this.state.sec === -1) {
+        let min = this.state.min;
+        min--;
+        this.setState({ min: min, sec: 59 });
+      } else if (this.state.sec === 0 && this.state.min === 0) {
+        this.setState({ timer: 'off' });
+      }
+    }
+  }
+  timerOff = () => {
+    clearTimeout(this.timer);
+    this.setState({ timer: 'off' });
+  };
+  timerOn = () => {
+    clearTimeout(this.timer);
+    this.setState({ timer: 'on' });
+  };
   editingTask = () => {
     this.setState({ editing: true });
   };
@@ -43,13 +71,29 @@ export default class Task extends React.Component {
       includeSeconds: true,
       addSuffix: true,
     });
+
     return (
       <li className={className}>
         <div className="view">
           <input className="toggle" type="checkbox" onChange={onTaskActive} defaultChecked={completed} />
           <label>
-            <span className="description">{label}</span>
-            <span className="created">created {taskCreateTime}</span>
+            <span className="title">{label}</span>
+            <span className="description">
+              <button
+                className="icon icon-play"
+                onClick={() => {
+                  this.timerOn();
+                }}
+              ></button>
+              <button
+                className="icon icon-pause"
+                onClick={() => {
+                  this.timerOff();
+                }}
+              ></button>
+              {this.state.min + ':' + this.state.sec}
+            </span>
+            <span className="description time_edit">created {taskCreateTime}</span>
           </label>
           <button className="icon icon-edit" onClick={this.editingTask}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>

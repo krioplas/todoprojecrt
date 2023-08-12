@@ -4,13 +4,13 @@ import './tasksFilter.css';
 
 export default class TasksFilter extends React.Component {
   ToDoData = [{ name: 'All' }, { name: 'Active' }, { name: 'Completed' }];
-
+  id = 0;
   render() {
     const { onFilter, nameFilter } = this.props;
     const element = this.ToDoData.map((item) => {
       const { name } = item;
       return (
-        <li key={Math.random() * 10}>
+        <li key={this.id++}>
           <button
             {...item}
             onClick={() => {

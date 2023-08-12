@@ -11,9 +11,11 @@ export default class App extends Component {
   state = {
     appData: [],
     nameFilter: 'All',
+    min: 0,
+    sec: 0,
   };
 
-  newId = 5;
+  newId = 0;
   createTask = (label) => {
     return {
       label,
@@ -41,7 +43,7 @@ export default class App extends Component {
     });
   };
 
-  addTask = (text) => {
+  addTask = (text, min, sec) => {
     const newTask = this.createTask(text);
     this.setState(({ appData }) => {
       const newAppData = [...appData, newTask];
@@ -49,6 +51,8 @@ export default class App extends Component {
         appData: newAppData,
       };
     });
+    this.setState({ min: min });
+    this.setState({ sec: sec });
   };
 
   onTaskActive = (id) => {
@@ -66,7 +70,9 @@ export default class App extends Component {
   onFilter = (name) => {
     this.setState({ nameFilter: name });
   };
-
+  onStateTimer = (min, sec) => {
+    this.setState({ min: min, sec: sec });
+  };
   editItem = (id, text) => {
     this.setState(({ appData }) => {
       return {
@@ -92,9 +98,11 @@ export default class App extends Component {
 
     return (
       <div>
-        <AppHeader />
         <section className="todoapp">
-          <NewTaskForm addTask={this.addTask} />
+          <header className="header">
+            <AppHeader />
+            <NewTaskForm addTask={this.addTask} />
+          </header>
           <TaskList
             todo={completedTaskFilter}
             onEdited={this.editItem}
@@ -102,6 +110,9 @@ export default class App extends Component {
             onDeleted={this.deleteTask}
             onTaskActive={this.onTaskActive}
             addTask={this.addTask}
+            onStateTimer={this.onStateTimer}
+            min={this.state.min}
+            sec={this.state.sec}
           />
           <Footer
             completed={activeTask}

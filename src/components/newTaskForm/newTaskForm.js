@@ -6,6 +6,9 @@ import './newTaskForm.css';
 export default class NewTaskForm extends React.Component {
   state = {
     label: '',
+    name: '',
+    min: '',
+    sec: '',
   };
 
   onTaskChange = (e) => {
@@ -13,30 +16,57 @@ export default class NewTaskForm extends React.Component {
       label: e.target.value,
     });
   };
+  onMin = (e) => {
+    this.setState({
+      min: e.target.value,
+    });
+  };
+  onSec = (e) => {
+    this.setState({
+      sec: e.target.value,
+    });
+  };
 
   onSubmitTask = (e) => {
     e.preventDefault();
     if (this.state.label.trim() !== '') {
-      this.props.addTask(this.state.label);
+      this.props.addTask(this.state.label, this.state.min, this.state.sec);
     }
     this.setState({
       label: '',
+      min: '',
+      sec: '',
     });
   };
 
   render() {
     return (
-      <form onSubmit={this.onSubmitTask}>
+      <form onSubmit={this.onSubmitTask} className="new-todo-form">
         <input
           type="text"
           maxLength={30}
           minLength={3}
           className="new-todo"
-          placeholder="Введите задачу и нажмите Enter"
+          placeholder="Введите задачу..."
           autoFocus
           onChange={this.onTaskChange}
           value={this.state.label}
         />
+        <input
+          className="new-todo-form__timer"
+          placeholder="Min"
+          onChange={this.onMin}
+          value={this.state.min}
+          pattern="[0-9]{1}[0-9]{1}"
+        />
+        <input
+          className="new-todo-form__timer"
+          placeholder="Sec"
+          onChange={this.onSec}
+          value={this.state.sec}
+          pattern="[0-5]{1}[0-9]{1}"
+        />
+        <button type="submit"></button>
       </form>
     );
   }
