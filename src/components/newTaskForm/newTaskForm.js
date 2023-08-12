@@ -57,7 +57,7 @@ export default class NewTaskForm extends React.Component {
           placeholder="Min"
           onChange={this.onMin}
           value={this.state.min}
-          pattern="[0-9]{1}[0-9]{1}[0-9]{1}"
+          pattern="[0-9]"
           maxLength={3}
         />
         <input
