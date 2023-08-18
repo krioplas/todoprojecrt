@@ -30,7 +30,7 @@ export default class NewTaskForm extends React.Component {
   onSubmitTask = (e) => {
     e.preventDefault();
     if (this.state.label.trim() !== '') {
-      this.props.addTask(this.state.label, this.state.min, this.state.sec);
+      this.props.addTask(this.state.label, Number(this.state.min), Number(this.state.sec));
     }
     this.setState({
       label: '',
@@ -57,7 +57,7 @@ export default class NewTaskForm extends React.Component {
           placeholder="Min"
           onChange={this.onMin}
           value={this.state.min}
-          pattern="[0-9]{,3}"
+          pattern="^\d+$"
           maxLength={3}
         />
         <input

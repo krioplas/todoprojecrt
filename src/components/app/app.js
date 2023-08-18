@@ -16,12 +16,14 @@ export default class App extends Component {
   };
 
   newId = 0;
-  createTask = (label) => {
+  createTask = (label, min, sec) => {
     return {
       label,
       id: this.newId++,
       completed: false,
       date: new Date(),
+      min: min,
+      sec: sec,
     };
   };
 
@@ -44,15 +46,13 @@ export default class App extends Component {
   };
 
   addTask = (text, min, sec) => {
-    const newTask = this.createTask(text);
+    const newTask = this.createTask(text, min, sec);
     this.setState(({ appData }) => {
       const newAppData = [...appData, newTask];
       return {
         appData: newAppData,
       };
     });
-    this.setState({ min: min });
-    this.setState({ sec: sec });
   };
 
   onTaskActive = (id) => {
@@ -111,8 +111,6 @@ export default class App extends Component {
             onTaskActive={this.onTaskActive}
             addTask={this.addTask}
             onStateTimer={this.onStateTimer}
-            min={this.state.min}
-            sec={this.state.sec}
           />
           <Footer
             completed={activeTask}

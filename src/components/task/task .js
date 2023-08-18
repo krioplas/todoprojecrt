@@ -2,42 +2,16 @@ import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+
 import './task.css';
+import Timer from '../timer/timer';
 
 export default class Task extends React.Component {
   state = {
     label: '',
     editing: false,
-    timer: 'off',
-    min: this.props.min,
-    sec: this.props.sec,
   };
-  timer;
-  componentDidUpdate() {
-    if (this.state.timer === 'on') {
-      this.timer = setTimeout(() => {
-        this.props.onStateTimer(this.state.min, this.state.sec - 1);
-        let sec = this.state.sec;
-        sec--;
-        this.setState({ sec: sec });
-      }, 1000);
-      if (this.state.sec === -1) {
-        let min = this.state.min;
-        min--;
-        this.setState({ min: min, sec: 59 });
-      } else if (this.state.sec === 0 && this.state.min === 0) {
-        this.setState({ timer: 'off' });
-      }
-    }
-  }
-  timerOff = () => {
-    clearTimeout(this.timer);
-    this.setState({ timer: 'off' });
-  };
-  timerOn = () => {
-    clearTimeout(this.timer);
-    this.setState({ timer: 'on' });
-  };
+
   editingTask = () => {
     this.setState({ editing: true });
   };
@@ -78,21 +52,12 @@ export default class Task extends React.Component {
           <input className="toggle" type="checkbox" onChange={onTaskActive} defaultChecked={completed} />
           <label>
             <span className="title">{label}</span>
-            <span className="description">
-              <button
-                className="icon icon-play"
-                onClick={() => {
-                  this.timerOn();
-                }}
-              ></button>
-              <button
-                className="icon icon-pause"
-                onClick={() => {
-                  this.timerOff();
-                }}
-              ></button>
-              {this.state.min + ':' + this.state.sec}
-            </span>
+            <Timer
+              min={this.props.min}
+              sec={this.props.sec}
+              onStateTimer={this.props.onStateTimer}
+              timerTime={this.props.timerTime}
+            />
             <span className="description time_edit">created {taskCreateTime}</span>
           </label>
           <button className="icon icon-edit" onClick={this.editingTask}></button>
