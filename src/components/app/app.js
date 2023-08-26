@@ -38,7 +38,6 @@ const App = () => {
 
   let addTask = (text, min, sec) => {
     const newTask = createTask(text, min, sec);
-    console.log(newTask);
     const newAppData = [...appData, newTask];
     setAppData(newAppData);
   };
