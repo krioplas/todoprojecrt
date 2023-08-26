@@ -1,47 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './timer.css';
 
-export default class Timer extends React.Component {
-  state = {
-    timer: 'off',
-    min: this.props.min,
-    sec: this.props.sec,
-  };
+const Timer = (props) => {
+  const { min, sec, timerTime } = props;
 
-  stepTimer = () => {
-    this.props.timerTime(this.state.min, this.state.sec - 1);
-    if (this.state.sec === 0 && this.state.min === 0) {
-      clearInterval(this.timer);
-    }
-    if (this.state.sec > 0 && this.state.min >= 0) {
-      let sec = this.state.sec;
-      sec--;
-      this.setState({ sec: sec });
-    }
+  let [timer, setTimer] = useState('off');
+  let [minute, setMinute] = useState(min);
+  let [second, setSecond] = useState(sec);
+  timer;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (timer === 'on') {
+        timerTime(minute, second - 1);
+        if (second === 0 && minute === 0) {
+          clearInterval(interval);
+        }
+        if (second > 0) {
+          setSecond(--second);
+        }
 
-    if (this.state.sec === 0 && this.state.min > 0) {
-      let min = this.state.min;
-      min--;
-      this.setState({ min: min, sec: 59 });
-    }
-  };
+        if (second === 0 && minute > 0) {
+          setSecond(59);
+          setMinute(--minute);
+        }
+      }
+      clearInterval(interval);
+    }, 1000);
+  });
 
-  timerOff = () => {
-    this.setState({ timer: 'off' });
-    clearInterval(this.timer);
-  };
-  timerOn = () => {
-    clearInterval(this.timer);
-    this.timer = setInterval(this.stepTimer, 1000);
-    this.setState({ timer: 'on' });
-  };
-  render() {
-    return (
-      <span className="description">
-        <button className="icon icon-play" onClick={this.timerOn}></button>
-        <button className="icon icon-pause" onClick={this.timerOff}></button>
-        {this.state.sec === 0 && this.state.min === 0 ? 'Winner' : this.state.min + ':' + this.state.sec}
-      </span>
-    );
-  }
-}
+  return (
+    <span className="description">
+      <button className="icon icon-play" onClick={() => setTimer('on')}></button>
+      <button className="icon icon-pause" onClick={() => setTimer('off')}></button>
+      {second === 0 && minute === 0 ? 'Winner' : minute + ':' + second}
+    </span>
+  );
+};
+export default Timer;

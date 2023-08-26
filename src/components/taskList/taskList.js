@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Task from '../task/task ';
-// import TaskEdit from '../taskEdit/taskEdit';
-
 import './taskList.css';
 
 const TaskList = ({ todo, onDeleted, onTaskActive, onEdited, addTask, onStateTimer }) => {
@@ -13,6 +11,7 @@ const TaskList = ({ todo, onDeleted, onTaskActive, onEdited, addTask, onStateTim
       item.min = min;
       item.sec = sec;
     };
+
     return (
       <Task
         key={id}
