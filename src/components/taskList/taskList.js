@@ -6,9 +6,13 @@ import Task from '../task/task ';
 
 import './taskList.css';
 
-const TaskList = ({ todo, onDeleted, onTaskActive, onEdited, addTask }) => {
+const TaskList = ({ todo, onDeleted, onTaskActive, onEdited, addTask, onStateTimer }) => {
   const element = todo.map((item) => {
     const { id, ...label } = item;
+    const timerTime = (min, sec) => {
+      item.min = min;
+      item.sec = sec;
+    };
     return (
       <Task
         key={id}
@@ -24,7 +28,11 @@ const TaskList = ({ todo, onDeleted, onTaskActive, onEdited, addTask }) => {
         addTask={() => {
           addTask();
         }}
+        onStateTimer={onStateTimer}
         date={item.date}
+        min={item.min}
+        sec={item.sec}
+        timerTime={timerTime}
       />
     );
   });

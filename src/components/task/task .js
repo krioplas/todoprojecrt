@@ -2,7 +2,9 @@ import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+
 import './task.css';
+import Timer from '../timer/timer';
 
 export default class Task extends React.Component {
   state = {
@@ -43,13 +45,20 @@ export default class Task extends React.Component {
       includeSeconds: true,
       addSuffix: true,
     });
+
     return (
       <li className={className}>
         <div className="view">
           <input className="toggle" type="checkbox" onChange={onTaskActive} defaultChecked={completed} />
           <label>
-            <span className="description">{label}</span>
-            <span className="created">created {taskCreateTime}</span>
+            <span className="title">{label}</span>
+            <Timer
+              min={this.props.min}
+              sec={this.props.sec}
+              onStateTimer={this.props.onStateTimer}
+              timerTime={this.props.timerTime}
+            />
+            <span className="description time_edit">created {taskCreateTime}</span>
           </label>
           <button className="icon icon-edit" onClick={this.editingTask}></button>
           <button className="icon icon-destroy" onClick={onDeleted}></button>
